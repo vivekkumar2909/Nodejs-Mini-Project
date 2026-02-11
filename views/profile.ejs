@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-black via-zinc-900 to-zinc-800 
+             flex flex-col items-center text-white py-10 px-4">
+
+    <!-- Create Post Card -->
+    <div class="w-full max-w-md bg-white/5 backdrop-blur-xl 
+                border border-white/10 rounded-3xl shadow-2xl p-8 relative">
+
+        <!-- Logout Button -->
+        <div class="absolute top-4 right-4">
+            <a href="/logout" class="text-sm px-3 py-1 rounded-full bg-red-500/20 
+                      hover:bg-red-500/40 text-red-400 transition duration-300">
+                Logout
+            </a>
+        </div>
+
+        <!-- Welcome Text -->
+        <h2 class="text-2xl font-semibold text-center mb-6">
+            Hello,
+            <span class="text-indigo-400">
+                <%= user.name %>
+            </span> 👋
+        </h2>
+
+        <!-- Post Form -->
+        <form action="/createPost" method="post" class="space-y-5">
+
+            <textarea name="content" placeholder="What's on your mind?" rows="4" required class="w-full bg-zinc-800/60 border border-zinc-700 
+                       rounded-xl p-4 focus:outline-none 
+                       focus:ring-2 focus:ring-indigo-500 
+                       resize-none transition duration-300"></textarea>
+
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 
+                       py-3 rounded-xl font-medium 
+                       transition duration-300 shadow-lg 
+                       hover:shadow-indigo-500/40">
+                Post 🚀
+            </button>
+
+        </form>
+    </div>
+
+
+    <!-- Posts Section -->
+    <% if (post && post.length> 0) { %>
+
+        <div class="mt-16 w-full max-w-6xl">
+
+            <!-- Section Title -->
+            <h3 class="text-xl font-semibold text-zinc-300 mb-8 
+                       border-b border-zinc-700 pb-3 text-center">
+                📌 All Your Posts
+            </h3>
+
+            <!-- Flex Grid -->
+            <div class="flex flex-wrap gap-6 justify-center">
+
+                <% post.forEach(post=> { %>
+
+                    <div class="bg-zinc-800/60 p-5 rounded-2xl 
+                                border border-zinc-700 
+                                space-y-4 
+                                w-full sm:w-[48%] lg:w-[30%]
+                                hover:scale-105 transition duration-300">
+
+                        <!-- Post Content -->
+                        <p class="text-sm text-zinc-200 break-words">
+                            <%= post.content %>
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-4 text-sm">
+
+                            <a href="/like/<%= post._id %>" class="px-3 py-1 bg-blue-500/20 text-blue-400 
+                                      rounded-md hover:bg-blue-500/30 transition">
+                                👍 Like
+                            </a>
+
+                            <a href="/edit/<%= post._id %>" class="px-3 py-1 bg-yellow-500/20 text-yellow-400 
+                                      rounded-md hover:bg-yellow-500/30 transition">
+                                ✏ Edit
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <% }) %>
+
+            </div>
+
+        </div>
+
+        <% } else { %>
+
+            <!-- If No Posts -->
+            <div class="mt-16 text-center text-zinc-500 text-lg">
+                🚀 You haven't posted anything yet.
+            </div>
+
+            <% } %>
+
+</body>
+
+</html>

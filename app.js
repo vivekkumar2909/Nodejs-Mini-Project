@@ -8,6 +8,8 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import isLogIn from './middleware/auth.js';
 import bcrypt from 'bcryptjs';
+import Post from './models/post.js';
+
 dotenv.config();
 
 const app = express();
@@ -113,10 +115,12 @@ app.post('/userLogin', async (req, res) => {
 
         res.cookie("token", token, { httpOnly: true });
 
-        return res.status(200).json({
-            success: true,
-            message: "User login successful"
-        });
+        // return res.status(200).json({
+        //     success: true,
+        //     message: "User login successful"
+        // });
+
+        res.redirect('/profile');
 
     } catch (error) {
         console.error(error);
@@ -182,18 +186,52 @@ app.get('/logout', (req, res) => {
     // res.cookie('token','') older version or not correct way
     res.clearCookie('token');
 
-    return res.status(200).json({
-        success: true,
-        message: 'Logout successfully'
-    });
+    // return res.status(200).json({
+    //     success: true,
+    //     message: 'Logout successfully'
+    // });
+
+    res.redirect('/login');
+
 });
 
-app.get('/profile', isLogIn, (req, res) => {
-    console.log(req.user);
-    res.status(200).json({
-        success: true,
-        message: 'Profile open'
+app.post('/createPost', isLogIn, async (req, res) => {
+
+    let { content
+    } = req.body;
+
+    let user = await user.findById({ _id: req.user.userId });
+
+    let post = await Post.create({
+        content,
+        user: user._id,
     })
+
+    user.posts.push(post._id);
+    await user.save();
+    res.redirect('/profile')
+})
+
+app.get('/profile', isLogIn, async (req, res) => {
+    console.log(req.user);
+
+
+    const user = await User.findById({ _id: req.user.userId });
+
+    // let post = {};
+
+    // user.password = undefined;
+
+
+    // res.status(200).json({
+    //     success: true,
+    //     message: 'Profile open'
+    // })
+
+    await user.populate('posts')
+
+    res.render('profile', { user });
+
 })
 
 
