@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="min-h-screen w-full bg-gradient-to-br from-zinc-900 via-zinc-800 to-black 
+                flex items-center justify-center px-4">
+
+        <div class="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl 
+                    border border-zinc-800 rounded-2xl shadow-2xl p-8">
+
+            <h3 class="text-3xl font-semibold text-center mb-2">
+                Create Account
+            </h3>
+            <p class="text-sm text-zinc-400 text-center mb-6">
+                Join us and start your journey 🚀
+            </p>
+
+            <form action="/create" method="POST" class="flex flex-col gap-4">
+
+                <input class="px-4 py-2 bg-transparent border border-zinc-700 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                           outline-none transition" type="text" placeholder="Full Name" name="name" required>
+
+                <input class="px-4 py-2 bg-transparent border border-zinc-700 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                           outline-none transition" type="text" placeholder="Username" name="username" required>
+
+                <input class="px-4 py-2 bg-transparent border border-zinc-700 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                           outline-none transition" type="email" placeholder="Email address" name="email" required>
+
+                <input class="px-4 py-2 bg-transparent border border-zinc-700 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                           outline-none transition" type="password" placeholder="Password" name="password" required>
+
+                <input class="px-4 py-2 bg-transparent border border-zinc-700 rounded-lg 
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                           outline-none transition" type="number" placeholder="Age" name="age" min="1">
+
+                <button class="mt-2 bg-blue-600 hover:bg-blue-700 
+                           active:scale-[0.98] transition 
+                           text-white py-2 rounded-lg font-medium shadow-lg" type="submit">
+                    Create Account
+                </button>
+
+            </form>
+
+            <p class="text-center text-sm text-zinc-400 mt-6">
+                Already have an account?
+                <a href="/login" class="text-blue-500 hover:underline">Login</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
