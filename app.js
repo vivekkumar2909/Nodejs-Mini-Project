@@ -197,20 +197,21 @@ app.get('/logout', (req, res) => {
 
 app.post('/createPost', isLogIn, async (req, res) => {
 
-    let { content
-    } = req.body;
+    const { content } = req.body;
 
-    let user = await user.findById({ _id: req.user.userId });
+    let user = await User.findById(req.user.userId);
 
     let post = await Post.create({
-        content,
+        content: content,
         user: user._id,
-    })
+    });
 
-    user.posts.push(post._id);
+    user.posts.push(post._id);   // make sure field name is posts
     await user.save();
-    res.redirect('/profile')
-})
+
+    res.redirect('/profile');
+});
+
 
 app.get('/profile', isLogIn, async (req, res) => {
     console.log(req.user);

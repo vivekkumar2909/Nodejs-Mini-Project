@@ -51,7 +51,7 @@
 
 
     <!-- Posts Section -->
-    <% if (post && post.length> 0) { %>
+    <% if (user.posts && user.posts.length> 0) { %>
 
         <div class="mt-16 w-full max-w-6xl">
 
@@ -64,7 +64,7 @@
             <!-- Flex Grid -->
             <div class="flex flex-wrap gap-6 justify-center">
 
-                <% post.forEach(post=> { %>
+                <% user.posts.forEach(post=> { %>
 
                     <div class="bg-zinc-800/60 p-5 rounded-2xl 
                                 border border-zinc-700 
