@@ -62,15 +62,21 @@
             </h3>
 
             <!-- Flex Grid -->
-            <div class="flex flex-wrap gap-6 justify-center">
+            <div class="flex flex-wrap gap-6 ">
+                <!-- <div class="flex flex-wrap gap-6 justify-center "> -->
 
-                <% user.posts.forEach(post=> { %>
+                <% user.posts.reverse().forEach(post=> { %>
 
                     <div class="bg-zinc-800/60 p-5 rounded-2xl 
                                 border border-zinc-700 
                                 space-y-4 
                                 w-full sm:w-[48%] lg:w-[30%]
                                 hover:scale-105 transition duration-300">
+
+                        <div class="text-sm text-zinc-400 font-medium tracking-wide">
+                            @<%= user.username %>
+                        </div>
+
 
                         <!-- Post Content -->
                         <p class="text-sm text-zinc-200 break-words">
@@ -80,15 +86,26 @@
                         <!-- Action Buttons -->
                         <div class="flex gap-4 text-sm">
 
+                            <div class="text-sm text-zinc-400">
+                                ❤️ <%= post.likes.length %> Likes
+                            </div>
+
+
                             <a href="/like/<%= post._id %>" class="px-3 py-1 bg-blue-500/20 text-blue-400 
                                       rounded-md hover:bg-blue-500/30 transition">
-                                👍 Like
-                            </a>
+                                <%= post.likes.includes(user._id) ? "👎 Unlike" : "👍 Like" %>
 
-                            <a href="/edit/<%= post._id %>" class="px-3 py-1 bg-yellow-500/20 text-yellow-400 
+
+                                    <a href="/editPost/<%= post._id %>" class="px-3 py-1 bg-yellow-500/20 text-yellow-400 
                                       rounded-md hover:bg-yellow-500/30 transition">
-                                ✏ Edit
-                            </a>
+                                        ✏ Edit
+                                    </a>
+
+                                    <!-- <button onclick="openEditModal('<%= post._id %>', `<%- post.content %>`)" class="px-3 py-1 bg-yellow-500/20 text-yellow-400 
+                                        rounded-md hover:bg-yellow-500/30 transition">
+                                        ✏ Edit
+                                    </button> -->
+
 
                         </div>
 

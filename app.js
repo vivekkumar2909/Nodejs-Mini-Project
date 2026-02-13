@@ -9,6 +9,7 @@ import dotenv from 'dotenv'
 import isLogIn from './middleware/auth.js';
 import bcrypt from 'bcryptjs';
 import Post from './models/post.js';
+import upload from './config/multer.js';
 
 dotenv.config();
 
@@ -236,6 +237,83 @@ app.get('/profile', isLogIn, async (req, res) => {
 })
 
 
+app.get('/like/:id', isLogIn, async (req, res) => {
+    try {
+        console.log('hei')
+        const postId = req.params.id;
+        // console.log(req.user)
+        const userId = req.user.userId;
+
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).send("Post not found");
+        }
+
+        // Check if user already liked
+        const alreadyLiked = post.likes.some(
+            id => id.toString() === userId.toString()
+        );
+
+        if (alreadyLiked) {
+            // Unlike
+            post.likes = post.likes.filter(
+                id => id.toString() !== userId.toString()
+            );
+        } else {
+            // Like
+            post.likes.push(userId);
+        }
+
+        await post.save();
+
+        res.redirect('/profile'); // go back to profile
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    }
+});
+
+app.get('/editPost/:id', isLogIn, async (req, res) => {
+
+    let id = req.params.id;
+
+    let post = await Post.findById({ _id: id });
+
+    res.render('edit', { post });
+
+});
+
+
+
+app.post('/edit/:id', isLogIn, async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const updatedContent = req.body.content;
+
+        await Post.findByIdAndUpdate(postId, {
+            content: updatedContent
+        });
+
+        res.redirect('/profile');
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error updating post");
+    }
+});
+
+
+
+app.get('/file', (req, res) => {
+    res.render('file');
+})
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    console.log(req.file);
+    res.send('Done')
+})
 
 
 
